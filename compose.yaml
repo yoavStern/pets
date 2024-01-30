@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=pets'
+      - 'MYSQL_PASSWORD=123456'
+      - 'MYSQL_ROOT_PASSWORD=123456'
+      - 'MYSQL_USER=user'
+    ports:
+      - '3306:3306'
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:latest
+    environment:
+      - DEBUG=1
+      - USE_SSL=0
+      - AWS_CBOR_DISABLE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME=localstack
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - '4566:4566'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./script/localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
